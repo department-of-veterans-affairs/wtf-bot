@@ -1,0 +1,4 @@
+venv
+vars.yml
+.pytest_cache
+__pycache__
