@@ -42,4 +42,5 @@ def test_no_slack_token(client):
 def test_not_found(client):
     data = {'text': '13231312334','token': os.getenv('SLACK_TOKEN')}
     r = client.post(ROUTE, data=data)
-    assert b'Not found!' in r.data
+    assert b'not found!' in r.data
+    assert b'13231312334' in r.data
