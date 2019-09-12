@@ -1,6 +1,6 @@
 # wtf-bot
 
-A Flask application that powers the DSVA Slack /wtf command. Inspired by https://github.com/paultag/wtf. Configured for deployment on [Cloud Foundry](https://www.cloudfoundry.org/). Relies on the VA [acronym list](https://github.com/department-of-veterans-affairs/acronyms).
+A Flask application that powers the DSVA Slack /wtf command. Inspired by a [previous incarnation](https://github.com/paultag/wtf) of similiar functionality . Configured for deployment on [Cloud Foundry](https://www.cloudfoundry.org/). Relies on the VA [acronym list](https://github.com/department-of-veterans-affairs/acronyms).
 
 ## Local development
 
