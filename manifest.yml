@@ -7,5 +7,5 @@ applications:
   stack: cflinuxfs3
   # cf push --vars-file vars.yml ...
   env:
-      SLACK_TOKEN: ((SLACK_TOKEN))
+      SLACK_TOKENS: ((SLACK_TOKENS))
       DATA_URL: ((DATA_URL))
