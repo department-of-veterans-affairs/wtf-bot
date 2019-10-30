@@ -17,13 +17,9 @@ def test_env_vars_present():
     for var in ['SLACK_TOKENS', 'DATA_URL']:
         assert os.getenv(var) != None
 
-def test_good_payload(client):
-    data = {'text': 'vba','token': TEST_TOKENS[0]}
-    r = client.post(ROUTE, data=data)
-    assert b'Veterans Benefits Administration' in r.data
-
-def test_multiple_tokens(client):
-    data = {'text': 'vba','token': TEST_TOKENS[1]}
+@pytest.mark.parametrize("token", TEST_TOKENS)
+def test_good_payload_using_valid_token(client, token):
+    data = {'text': 'vba','token': token}
     r = client.post(ROUTE, data=data)
     assert b'Veterans Benefits Administration' in r.data
 
@@ -43,7 +39,7 @@ def test_bad_payload(client):
     assert b'Improper request' in r.data
 
 def test_no_slack_token(client):
-    data = {'text': 'vba','token': ' foobar'}
+    data = {'text': 'vba','token': 'foobar'}
     r = client.post(ROUTE, data=data)
     assert b'Not authorized' in r.data
 
