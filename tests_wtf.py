@@ -1,10 +1,16 @@
-import os, json
-import pytest
-from wtf import APP
-from config import SLACK_TOKENS
+import os
 
+# Update/add env variables for this subprocess to test multiple Slack tokens.
+# Must be done before wtf.APP and config.SLACK_TOKENS are imported.
+os.environ['SLACK_TOKENS'] = 'test_token0, test_token1, test_token2'
+
+import json
+import pytest
+from config import SLACK_TOKENS
+from wtf import APP
+
+TEST_TOKEN = SLACK_TOKENS[2]
 ROUTE = '/slack'
-TEST_TOKEN = SLACK_TOKENS[0]
 
 @pytest.fixture
 def client():
@@ -15,6 +21,11 @@ def client():
 def test_env_vars_present():
     for var in ['SLACK_TOKENS', 'DATA_URL']:
         assert os.getenv(var) != None
+
+def test_different_slack_token(client):
+    data = {'text': 'vba','token': SLACK_TOKENS[1]}
+    r = client.post(ROUTE, data=data)
+    assert r.status_code != 401
 
 def test_good_payload(client):
     data = {'text': 'vba','token': TEST_TOKEN}
