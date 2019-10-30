@@ -1,9 +1,9 @@
 import csv
 import requests
 from flask import Flask, make_response, request
-from config import SLACK_TOKENS, DATA_URL
 
 APP = Flask(__name__)
+APP.config.from_pyfile('config.py')
 
 @APP.route('/slack', methods=['GET', 'POST'])
 def slack():
@@ -13,10 +13,10 @@ def slack():
     if not all(k in req.keys() for k in ['text', 'token']):
         return make_response('Improper request.', 400)
 
-    if req['token'] not in SLACK_TOKENS:
+    if req['token'] not in APP.config['SLACK_TOKENS']:
         return make_response('Not authorized', 401)
 
-    raw = requests.get(DATA_URL)
+    raw = requests.get(APP.config['DATA_URL'])
 
     decoded = raw.content.decode('utf-8')
 
