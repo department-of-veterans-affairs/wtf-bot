@@ -3,3 +3,4 @@ venv
 vars.yml
 .pytest_cache
 __pycache__
+.coverage
