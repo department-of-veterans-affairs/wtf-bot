@@ -1,3 +1,4 @@
+import http
 import os
 
 # Update/add env variables for this subprocess to test multiple Slack tokens.
@@ -25,12 +26,20 @@ def test_env_vars_present():
 def test_different_slack_token(client):
     data = {'text': 'vba','token': SLACK_TOKENS[1]}
     r = client.post(ROUTE, data=data)
-    assert r.status_code != 401
+    assert r.status_code == http.HTTPStatus.OK
+
+# the implementation uses 'in', and if the array changes in the future to be a string the other tests will still pass
+# but this one should fail
+def test_substring_token(client):
+    data = data = {'text': 'vba','token': SLACK_TOKENS[1][0:2]}
+    r = client.post(ROUTE, data=data)
+    assert r.status_code == http.HTTPStatus.UNAUTHORIZED
 
 def test_good_payload(client):
     data = {'text': 'vba','token': TEST_TOKEN}
     r = client.post(ROUTE, data=data)
     assert b'Veterans Benefits Administration' in r.data
+    assert r.status_code == http.HTTPStatus.OK
 
 def test_multi_def_payload(client):
     data = {'text': 'aaa','token': TEST_TOKEN}
@@ -46,14 +55,17 @@ def test_bad_payload(client):
     data = {'foo': 'bar', 'token': TEST_TOKEN}
     r = client.post(ROUTE, data=data)
     assert b'Improper request' in r.data
+    assert r.status_code == http.HTTPStatus.BAD_REQUEST
 
 def test_no_slack_token(client):
     data = {'text': 'vba','token': ' foobar'}
     r = client.post(ROUTE, data=data)
     assert b'Not authorized' in r.data
+    assert r.status_code == http.HTTPStatus.UNAUTHORIZED
 
 def test_not_found(client):
     data = {'text': '13231312334','token': TEST_TOKEN}
     r = client.post(ROUTE, data=data)
     assert b'not found!' in r.data
     assert b'13231312334' in r.data
+    assert r.status_code == http.HTTPStatus.OK
