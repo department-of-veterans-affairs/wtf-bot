@@ -1,9 +1,10 @@
 import csv
 import requests
 from flask import Flask, make_response, request
+from config import Config
 
 APP = Flask(__name__)
-APP.config.from_pyfile('config.py')
+APP.config.from_object(Config())
 
 @APP.route('/slack', methods=['GET', 'POST'])
 def slack():
