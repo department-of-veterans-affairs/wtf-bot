@@ -16,11 +16,11 @@ Create and configure virtual environment.
 Set environment variables.
 - `$ export FLASK_APP=/path/to/wtf-bot/wtf.py`
 - `$ export FLASK_DEBUG=1`
-- `$ export SLACK_TOKEN={to be defined by you}`
+- `$ export SLACK_TOKENS={comma separated tokens to be defined by you}`
 - `$ export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv`
 
 Run tests.
-- `$ pytest tests_wtf.py`
+- `$ pytest tests*.py`
 
 Run the local server.
 - `$ flask run`
