@@ -45,10 +45,12 @@ def slack():
         acroynm_defined = term_dict[req['text'].lower()]
 
         if len(acroynm_defined) > 1:
-            response = '; or '.join(acroynm_defined)
+            response = '; \n - '.join(acroynm_defined)
 
         else:
-            response = acroynm_defined[0]
+            response = ' - ' + acroynm_defined[0]
+
+        response = req['text'] + '\n - ' + response
 
     except KeyError:
         response = """
