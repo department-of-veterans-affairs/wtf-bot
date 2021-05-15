@@ -4,9 +4,8 @@ import json
 import pytest
 from wtf import APP
 
-# Special test script uses a fork of the acronyms repo to include multiple definitions with context and notes for "FOO"
-# https://github.com/michael-barlow3/acronyms/blob/master/acronyms.csv
-# https://raw.githubusercontent.com/michael-barlow3/acronyms/master/acronyms.csv
+# Special test script uses a custom 'test_acronyms.csv' file which includes multiple definitions with context and notes for "FOOI"
+# See README.md for notes on how to run the test
 
 ROUTE = '/slack'
 TEST_TOKENS = ['token1', 'token2']
