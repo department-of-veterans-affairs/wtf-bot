@@ -4,6 +4,10 @@ import json
 import pytest
 from wtf import APP
 
+# Special test script uses a fork of the acronyms repo to include multiple definitions with context and notes for "FOO"
+# https://github.com/michael-barlow3/acronyms/blob/master/acronyms.csv
+# https://raw.githubusercontent.com/michael-barlow3/acronyms/master/acronyms.csv
+
 ROUTE = '/slack'
 TEST_TOKENS = ['token1', 'token2']
 
@@ -24,6 +28,12 @@ def test_good_payload_using_valid_token(client, token):
     r = client.post(ROUTE, data=data)
     assert b'Veterans Benefits Administration' in r.data
     assert r.status_code == http.HTTPStatus.OK
+
+def test_multi_def_with_context_and_note_payload(client):
+    data = {'text': 'foo','token': TEST_TOKENS[0]}
+    r = client.post(ROUTE, data=data)
+    # print (r.data)
+    assert b'foo\n - For Obfuscating Obvious Information\n\t- This is a sample context\n\t- This is a sample note; \n - For Obfuscating Obvious Information 2\n\t- This is a sample context\n\t- This is a sample note; \n - For Obfuscating Obvious Information 3\n\t- This is a sample context\n\t- This is a sample note' in r.data
 
 def test_multi_def_payload(client):
     data = {'text': 'aaa','token': TEST_TOKENS[0]}

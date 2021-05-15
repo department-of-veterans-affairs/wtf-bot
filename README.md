@@ -43,16 +43,37 @@ $ export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affai
 **Windows**
 
 ```
-$ set FLASK_APP=/path/to/wtf-bot/wtf.py
-$ set FLASK_DEBUG=1
-$ set SLACK_TOKENS={comma separated tokens to be defined by you}
-$ set DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv
+> set FLASK_APP=/path/to/wtf-bot/wtf.py
+> set FLASK_DEBUG=1
+> set SLACK_TOKENS={comma separated tokens to be defined by you}
+> set DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv
 ```
 
 **Run tests.**
 
 ```
-$ pytest tests*.py
+$ pytest tests_config.py
+$ pytest tests_wtf.py
+```
+
+There's one additional special test for testing out acronyms with multiple definitions as well as `Context` information and `Notes` in the acronyms file. For this a acronyms file has been set up. To run this test the `DATA_URL` needs to be modified to point to the new `acronyms.csv` before running the test
+
+***nix**
+
+```
+$ export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/wtf-bot/master/test_acronyms.csv
+```
+
+**Windows**
+
+```
+> set DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/wtf-bot/master/test_acronyms.csv
+```
+
+Then run the additional test
+
+```
+$ pytest tests_wtf_context_notes.py
 ```
 
 **Run the local server.**
@@ -66,8 +87,6 @@ $ flask run
 ```
 $ curl -X POST http://127.0.0.1:5000/slack -d "text=aaa&token={to be defined by you}"
 ```
-
-
 
 ## Bugs, feature requests, or contributions
 
