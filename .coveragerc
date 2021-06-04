@@ -1,0 +1,12 @@
+[run]
+branch = True
+source = .
+omit =
+  **/test_*
+  **/ENV/*
+
+[html]
+directory = results/coverage
+
+[xml]
+output = results/coverage/pytest-coverage.xml
