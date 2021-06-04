@@ -50,7 +50,7 @@ pip-upgrade:  ## Upgrade all python dependencies
 SITE_PACKAGES := $(shell pip show pip | grep '^Location' | cut -f2 -d ':')
 $(SITE_PACKAGES): requirements.txt dev-requirements.txt check-env
 ifeq ($(CI_ARG), true)
-	@echo "Do nothing; assume python dependencies were installed by Dockerfile.test already"
+	@echo "Do nothing; assume python dependencies were installed already"
 else
 	pip-sync requirements.txt dev-requirements.txt
 endif
@@ -61,21 +61,12 @@ pip-install: $(SITE_PACKAGES)
 ## Test targets
 .PHONY: unit-test
 unit-test: pip-install  ## Run python unit tests
-	PYTHONWARNINGS='ignore::DeprecationWarning:numpy' \
 	python -m pytest -v --cov --cov-report term --cov-report xml --cov-report html
 
 .PHONY: flake8
 flake8: pip-install 	## Run Flake8 python static style checking and linting
 	@echo "flake8 comments:"
-	flake8 --max-line-length=120 --statistics scripts
-
-.PHONY: ci-unit-test
-ci-unit-test:  CONTAINER_NAME := dashboard-test-container-$(shell date "+%Y.%m.%d-%H.%M.%S")
-ci-unit-test:  ## Run unit tests and flake8 in a docker container, copy the results back out
-	docker build -q -t dashboard-test-img -f Dockerfile.test .
-	docker run --name $(CONTAINER_NAME) --env CI=$(CI_ARG) dashboard-test-img
-	docker cp $(CONTAINER_NAME):/dashboard/results .
-	docker rm $(CONTAINER_NAME)
+	flake8 --statistics .
 
 .PHONY: test
 test: unit-test flake8 ## Run unit tests, static analysis
