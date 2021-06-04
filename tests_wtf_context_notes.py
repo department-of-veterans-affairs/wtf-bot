@@ -20,25 +20,27 @@ def client():
 def test_env_vars_present():
     for var in ['SLACK_TOKENS', 'DATA_URL']:
         assert os.getenv(var) != None
+        print (var, "--", os.getenv(var))
 
 @pytest.mark.parametrize("token", TEST_TOKENS)
 def test_good_payload_using_valid_token(client, token):
     data = {'text': 'vba','token': token}
     r = client.post(ROUTE, data=data)
+    print (r.data)
     assert b'Veterans Benefits Administration' in r.data
     assert r.status_code == http.HTTPStatus.OK
 
 def test_multi_def_with_context_and_note_payload(client):
     data = {'text': 'foo','token': TEST_TOKENS[0]}
     r = client.post(ROUTE, data=data)
-    # print (r.data)
-    assert b'foo\n - For Obfuscating Obvious Information\n\t- This is a sample context\n\t- This is a sample note; \n - For Obfuscating Obvious Information 2\n\t- This is a sample context\n\t- This is a sample note; \n - For Obfuscating Obvious Information 3\n\t- This is a sample context\n\t- This is a sample note' in r.data
+    print ('Looking for foo - ', r.data)
+    assert b'foo\n - For Obfuscating Obvious Information Def 1\n\t- This is a sample context\n\t- This is a sample note; \n - For Obfuscating Obvious Information Def 2\n\t- This is a sample context\n\t- This is a sample note; \n - For Obfuscating Obvious Information Def 3\n\t- This is a sample context\n\t- This is a sample note' in r.data
 
 def test_multi_def_payload(client):
     data = {'text': 'aaa','token': TEST_TOKENS[0]}
     r = client.post(ROUTE, data=data)
     assert b' - Abdominal Aortic Aneurysm;' in r.data
-    assert b' - Area Agencies on Aging;' in r.data
+    assert b' - Area Agencies on Aging' in r.data
 
 def test_context_payload(client):
     data = {'text': '3pao','token': TEST_TOKENS[0]}
