@@ -73,7 +73,7 @@ $ export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affai
 Then run the additional test
 
 ```
-$ pytest tests_wtf_context_notes.py
+$ pytest tests_wtf_edge_case.py
 ```
 
 **Run the local server.**
