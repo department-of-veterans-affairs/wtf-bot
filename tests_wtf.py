@@ -29,7 +29,7 @@ def test_multi_def_payload(client):
     data = {'text': 'aaa','token': TEST_TOKENS[0]}
     r = client.post(ROUTE, data=data)
     assert b' - Abdominal Aortic Aneurysm;' in r.data
-    assert b' - Area Agencies on Aging;' in r.data
+    assert b' - Area Agencies on Aging' in r.data
 
 def test_context_payload(client):
     data = {'text': '3pao','token': TEST_TOKENS[0]}
