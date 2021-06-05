@@ -1,5 +1,6 @@
 from os import getenv
 
+
 class Config(object):
     @property
     def SLACK_TOKENS(self):

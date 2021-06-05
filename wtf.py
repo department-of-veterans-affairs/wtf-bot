@@ -7,6 +7,7 @@ from config import Config
 APP = Flask(__name__)
 APP.config.from_object(Config())
 
+
 @APP.route('/slack', methods=['GET', 'POST'])
 def slack():
 
