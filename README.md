@@ -8,7 +8,7 @@ Clone this repo.
 
 ```
 $ git clone https://github.com/department-of-veterans-affairs/wtf-bot.git
-$ cd /path/to/wtf-bot/`
+$ cd /path/to/wtf-bot/
 ```
 
 ### Create and configure virtual environment.
@@ -34,9 +34,9 @@ $ cd /path/to/wtf-bot/`
 $ make test
 ```
 
-**Run the local server.**
+## Run the server locally
 
-### Set environment variables.
+### Set up environment variables
 
 ***nix**
 
@@ -55,6 +55,8 @@ $ export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affai
 > set SLACK_TOKENS={comma separated tokens to be defined by you}
 > set DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv
 ```
+
+### Start the local server
 
 ```
 $ flask run
