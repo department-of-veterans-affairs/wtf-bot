@@ -5,6 +5,5 @@
 
 # Dev tooling
 flake8
-freezegun
 pip-tools
 pytest-cov
