@@ -41,7 +41,6 @@ def slack():
             notes = "\n\t- " + d[3].strip()
         full_data = "{}{}{}".format(definition, context, notes)
 
-
         existing = term_dict.get(acroynm, None)
 
         if not existing:

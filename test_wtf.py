@@ -7,7 +7,8 @@ TEST_TOKENS = ['token1', 'token2']
 
 os.environ['SLACK_TOKENS'] = 'test'
 # FIXME: temporary until PR is merged
-os.environ['DATA_URL'] = 'https://raw.githubusercontent.com/department-of-veterans-affairs/wtf-bot/master/test_acronyms.csv'
+os.environ['DATA_URL'] = 'https://raw.githubusercontent.com/department-of-veterans-affairs'\
+    '/wtf-bot/master/test_acronyms.csv'
 
 # Import after setting environment variables
 from wtf import APP    # noqa: E402
@@ -42,23 +43,28 @@ def test_multi_def_payload(client):
 
 
 def test_context_payload(client):
-    data = {'text': '3pao','token': TEST_TOKENS[0]}
+    data = {'text': '3pao', 'token': TEST_TOKENS[0]}
     r = client.post(ROUTE, data=data)
     # print (r.data)
-    assert b'3pao\n - Third Party Assessment Organization\n\t- FedRAMP requires a 3PA0 to verify the attestations made in an SSP' in r.data
+    assert b'3pao\n - Third Party Assessment Organization\n\t- FedRAMP requires a 3PA0 to verify the attestations '\
+        b'made in an SSP' in r.data
 
 
 def test_multi_def_with_context_and_note_payload(client):
-    data = {'text': 'foo','token': TEST_TOKENS[0]}
+    data = {'text': 'foo', 'token': TEST_TOKENS[0]}
     r = client.post(ROUTE, data=data)
     # print (r.data)
-    assert b'foo\n - For Obfuscating Obvious Information Def 1\n\t- This is a sample context\n\t- This is a sample note; \n - For Obfuscating Obvious Information Def 2\n\t- This is a sample context\n\t- This is a sample note; \n - For Obfuscating Obvious Information Def 3\n\t- This is a sample context\n\t- This is a sample note' in r.data
+    assert b'foo\n - For Obfuscating Obvious Information Def 1\n\t- This is a sample context\n\t- This is a '\
+        b'sample note; \n - For Obfuscating Obvious Information Def 2\n\t- This is a sample context\n\t- '\
+        b'This is a sample note; \n - For Obfuscating Obvious Information Def 3\n\t- This is a sample '\
+        b'context\n\t- This is a sample note' in r.data
 
 
 def test_note_payload(client):
-    data = {'text': 'ahlta','token': TEST_TOKENS[0]}
+    data = {'text': 'ahlta', 'token': TEST_TOKENS[0]}
     r = client.post(ROUTE, data=data)
-    assert b'ahlta\n - Armed Forces Health Longitudinal Technology Application\n\t- DoD electronic medical record system' in r.data
+    assert b'ahlta\n - Armed Forces Health Longitudinal Technology Application\n\t- DoD electronic medical '\
+        b'record system' in r.data
 
 
 def test_comma_in_def(client):
