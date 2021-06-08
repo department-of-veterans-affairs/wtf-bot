@@ -28,7 +28,19 @@ def test_good_payload_using_valid_token(client, token):
 def test_multi_def_payload(client):
     data = {'text': 'aaa','token': TEST_TOKENS[0]}
     r = client.post(ROUTE, data=data)
-    assert b'Abdominal Aortic Aneurysm; or Area Agencies on Aging;' in r.data
+    assert b' - Abdominal Aortic Aneurysm;' in r.data
+    assert b' - Area Agencies on Aging' in r.data
+
+def test_context_payload(client):
+    data = {'text': '3pao','token': TEST_TOKENS[0]}
+    r = client.post(ROUTE, data=data)
+    # print (r.data)
+    assert b'3pao\n - Third Party Assessment Organization\n\t- FedRAMP requires a 3PA0 to verify the attestations made in an SSP' in r.data
+
+def test_note_payload(client):
+    data = {'text': 'ahlta','token': TEST_TOKENS[0]}
+    r = client.post(ROUTE, data=data)
+    assert b'ahlta\n - Armed Forces Health Longitudinal Technology Application\n\t- DoD electronic medical record system' in r.data    
 
 def test_comma_in_def(client):
     data = {'text': 'acre','token': TEST_TOKENS[0]}
