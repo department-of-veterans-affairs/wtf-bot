@@ -7,6 +7,7 @@ from config import Config
 APP = Flask(__name__)
 APP.config.from_object(Config())
 
+
 @APP.route('/slack', methods=['GET', 'POST'])
 def slack():
 
@@ -39,7 +40,6 @@ def slack():
         if len(d[3]) > 0:
             notes = "\n\t- " + d[3].strip()
         full_data = "{}{}{}".format(definition, context, notes)
-
 
         existing = term_dict.get(acroynm, None)
 

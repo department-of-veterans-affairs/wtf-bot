@@ -8,7 +8,7 @@ Clone this repo.
 
 ```
 $ git clone https://github.com/department-of-veterans-affairs/wtf-bot.git
-$ cd /path/to/wtf-bot/`
+$ cd /path/to/wtf-bot/
 ```
 
 ### Create and configure virtual environment.
@@ -16,20 +16,27 @@ $ cd /path/to/wtf-bot/`
 ***nix**
 
  ```
-  $ python3 -m venv venv
-  $ source venv/bin/activate
-  $ pip3 install -r requirements.txt
+  $ make python-install
+  $ source ENV/bin/activate
  ```
 
 **Windows**
 
  ```
-> python3 -m venv venv
-> venv\Scripts\activate
-> pip3 install -r requirements.txt
+> python3 -m venv ENV
+> ENV\Scripts\activate
+> pip3 install -r requirements.txt dev-requirements.txt
  ```
 
-### Set environment variables.
+**Run tests.**
+
+```
+$ make test
+```
+
+## Run the server locally
+
+### Set up environment variables
 
 ***nix**
 
@@ -49,34 +56,7 @@ $ export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affai
 > set DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv
 ```
 
-**Run tests.**
-
-```
-$ pytest tests_config.py
-$ pytest tests_wtf.py
-```
-
-There's one additional special test for testing out acronyms with multiple definitions as well as `Context` information and `Notes` in the acronyms file. For this a acronyms file has been set up. To run this test the `DATA_URL` needs to be modified to point to the new `acronyms.csv` before running the test
-
-***nix**
-
-```
-$ export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/wtf-bot/master/test_acronyms.csv
-```
-
-**Windows**
-
-```
-> set DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/wtf-bot/master/test_acronyms.csv
-```
-
-Then run the additional test
-
-```
-$ pytest tests_wtf_edge_case.py
-```
-
-**Run the local server.**
+### Start the local server
 
 ```
 $ flask run

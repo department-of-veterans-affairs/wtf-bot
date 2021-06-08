@@ -1,5 +1,10 @@
-venv
-vars.yml
+# Python stuff
+.env
 .pytest_cache
-__pycache__
+__pycache__/
+ENV/
+venv/
+
+# test results
 .coverage
+results/
