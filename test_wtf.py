@@ -48,6 +48,13 @@ def test_context_payload(client):
     assert b'3pao\n - Third Party Assessment Organization\n\t- FedRAMP requires a 3PA0 to verify the attestations made in an SSP' in r.data
 
 
+def test_multi_def_with_context_and_note_payload(client):
+    data = {'text': 'foo','token': TEST_TOKENS[0]}
+    r = client.post(ROUTE, data=data)
+    # print (r.data)
+    assert b'foo\n - For Obfuscating Obvious Information Def 1\n\t- This is a sample context\n\t- This is a sample note; \n - For Obfuscating Obvious Information Def 2\n\t- This is a sample context\n\t- This is a sample note; \n - For Obfuscating Obvious Information Def 3\n\t- This is a sample context\n\t- This is a sample note' in r.data
+
+
 def test_note_payload(client):
     data = {'text': 'ahlta','token': TEST_TOKENS[0]}
     r = client.post(ROUTE, data=data)
