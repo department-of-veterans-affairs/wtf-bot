@@ -7,7 +7,7 @@ TEST_TOKENS = ['token1', 'token2']
 
 os.environ['SLACK_TOKENS'] = 'test'
 # FIXME: temporary until PR is merged
-os.environ['DATA_URL'] = 'https://raw.githubusercontent.com/department-of-veterans-affairs/wtf-bot/master/test-acronyms.csv'
+os.environ['DATA_URL'] = 'https://raw.githubusercontent.com/department-of-veterans-affairs/wtf-bot/master/test_acronyms.csv'
 
 # Import after setting environment variables
 from wtf import APP    # noqa: E402
