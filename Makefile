@@ -37,15 +37,15 @@ endif
 endif
 
 requirements.txt: requirements.in
-	pip-compile --generate-hashes requirements.in --output-file $@
+	pip-compile --allow-unsafe --generate-hashes requirements.in --output-file $@
 
 dev-requirements.txt: dev-requirements.in
-	pip-compile --generate-hashes dev-requirements.in --output-file $@
+	pip-compile --allow-unsafe --generate-hashes dev-requirements.in --output-file $@
 
 .PHONY: pip-upgrade
 pip-upgrade:  ## Upgrade all python dependencies
-	pip-compile --upgrade --generate-hashes requirements.in --output-file requirements.txt
-	pip-compile --upgrade --generate-hashes dev-requirements.in --output-file dev-requirements.txt
+	pip-compile --upgrade --allow-unsafe --generate-hashes requirements.in --output-file requirements.txt
+	pip-compile --upgrade --allow-unsafe --generate-hashes dev-requirements.in --output-file dev-requirements.txt
 
 SITE_PACKAGES := $(shell pip show pip | grep '^Location' | cut -f2 -d ':')
 $(SITE_PACKAGES): requirements.txt dev-requirements.txt check-env
