@@ -23,9 +23,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ env.python_version }}
-      - name: Install dependencies
-        run: |
-          pip install --require-hashes -r requirements.txt -r dev-requirements.txt
 
       - name: Deploy to cloud.gov
         uses: cloud-gov/cg-cli-tools@main
