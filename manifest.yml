@@ -1,11 +1,11 @@
 applications:
-- name: wtf-bot
-  instances: 1
-  memory: 128M
-  disk_quota: 1024M
-  buildpack: python_buildpack
-  stack: cflinuxfs3
-  # cf push --vars-file vars.yml ...
-  env:
+  - name: va-wtf-bot
+    instances: 1
+    memory: 128M
+    disk_quota: 1024M
+    buildpack: python_buildpack
+    stack: cflinuxfs3
+    # cf push --vars-file vars.yml ...
+    env:
       SLACK_TOKENS: ((SLACK_TOKENS))
       DATA_URL: ((DATA_URL))

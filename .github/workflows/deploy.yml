@@ -1,4 +1,4 @@
-name: web-bot deploy
+name: va-web-bot deploy
 
 on:
   push:
