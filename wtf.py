@@ -7,7 +7,7 @@ from config import Config
 APP = Flask(__name__)
 APP.config.from_object(Config())
 
-
+# flake8: noqa: C901
 @APP.route('/slack', methods=['GET', 'POST'])
 def slack():
 
