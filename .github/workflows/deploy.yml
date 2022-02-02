@@ -1,0 +1,34 @@
+name: web-bot deploy
+
+on:
+  push:
+    branches: [master]
+  schedule:
+    - cron: '30 9 * * 0' # Every Sunday at 9:30AM UTC (5:30AM EST)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get python version
+        run: |
+          python_version=$(cat .python-version)
+          echo "python_version=${python_version}" >> $GITHUB_ENV
+      - name: Set up Python $
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.python_version }}
+      - name: Install dependencies
+        run: |
+          pip install --require-hashes -r requirements.txt -r dev-requirements.txt
+
+      - name: Deploy to cloud.gov
+        uses: cloud-gov/cg-cli-tools@main
+        with:
+          cf_api: ${{ secrets.CF_API }}
+          cf_username: ${{ secrets.CF_USERNAME }}
+          cf_password: ${{ secrets.CF_PASSWORD }}
+          cf_org: ${{ secrets.CF_ORG }}
+          cf_space: ${{ secrets.CF_SPACE }}

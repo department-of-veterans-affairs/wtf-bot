@@ -30,7 +30,8 @@ def slack():
     term_dict = {}
 
     for d in data:
-
+        if len(d) != 4:
+            continue
         acroynm = d[0].lower()
         definition = d[1].strip()
         context = ''
