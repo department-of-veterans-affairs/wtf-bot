@@ -2,7 +2,10 @@ name: web-bot deploy
 
 on:
   push:
-    branches: [master, main, quickfixes]
+    branches:
+      - master
+      - main
+      - quick-fixes
   schedule:
     - cron: '30 9 * * 0' # Every Sunday at 9:30AM UTC (5:30AM EST)
 
