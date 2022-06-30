@@ -1,6 +1,6 @@
 # wtf-bot
 
-A Flask application that powers the /wtf Slack command. Inspired by a [previous incarnation](https://github.com/paultag/wtf) of similar functionality. Configured for deployment on [Cloud Foundry](https://www.cloudfoundry.org/). Relies on the VA [acronym list](https://github.com/department-of-veterans-affairs/acronyms).
+A Flask application that powers the /wtf Slack command. Inspired by a [previous incarnation](https://github.com/paultag/wtf) of similar functionality. Configured for deployment on [Cloud.gov](https://www.cloud.gov). Relies on the VA [acronym list](https://github.com/department-of-veterans-affairs/acronyms).
 
 ## Local development
 
@@ -13,14 +13,20 @@ $ cd /path/to/wtf-bot/
 
 ### Create and configure virtual environment.
 
-***nix**
+Make sure you have the correct version of python. [Pyenv](https://github.com/pyenv/pyenv) manages python versions.
+  1. `pyenv install 3.8.12` (use version in `.python-version`)
+  2. Make sure to configure your shell's environment for pyenv following instructions in step 2
+    [here](https://github.com/pyenv/pyenv#basic-github-checkout).
+  3. Once this is done, start a new shell and run `pyenv version` and `python --version` in the terminal from the root directory of the project, both should read `3.8.12`
+
+#### *nix
 
  ```
   $ make python-install
   $ source ENV/bin/activate
  ```
 
-**Windows**
+#### Windows
 
  ```
 > python3 -m venv ENV
@@ -28,7 +34,7 @@ $ cd /path/to/wtf-bot/
 > pip3 install -r requirements.txt dev-requirements.txt
  ```
 
-**Run tests.**
+### Run tests
 
 ```
 $ make test
@@ -38,7 +44,7 @@ $ make test
 
 ### Set up environment variables
 
-***nix**
+#### *nix
 
 ```
 $ export FLASK_APP=/path/to/wtf-bot/wtf.py
@@ -47,7 +53,7 @@ $ export SLACK_TOKENS={comma separated tokens to be defined by you}
 $ export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv
 ```
 
-**Windows**
+#### Windows
 
 ```
 > set FLASK_APP=/path/to/wtf-bot/wtf.py
@@ -62,7 +68,7 @@ $ export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affai
 $ flask run
 ```
 
-**Query the `/slack` endpoint.**
+## Query the `/slack` endpoint
 
 ```
 $ curl -X POST http://127.0.0.1:5000/slack -d "text=aaa&token={to be defined by you}"
