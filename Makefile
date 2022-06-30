@@ -19,7 +19,7 @@ help:  ## Prints out documentation for available commands
 # python-install recipe all has to run in a single shell because it's running inside a virtualenv
 python-install:  requirements.txt dev-requirements.txt ## Sets up your python environment for the first time (only need to run once)
 	pip install virtualenv ;\
-	virtualenv -p ~/.pyenv/shims/python ENV ;\
+	virtualenv ENV ;\
 	source ENV/bin/activate ;\
 	echo shell ENV activated ;\
 	pip install --require-hashes -r requirements.txt -r dev-requirements.txt ;\
@@ -72,8 +72,16 @@ flake8: pip-install 	## Run Flake8 python static style checking and linting
 test: unit-test flake8 ## Run unit tests, static analysis
 	@echo "All tests passed."  # This should only be printed if all of the other targets succeed
 
+.PHONY: install-action-lint
+install-action-lint:  ## Install actionlint
+	brew install actionlint
+
+.PHONY: actionlint
+actionlint:  ## Run actionlint
+	actionlint
+
 .PHONY: clean
-clean:  ## Delete any directories, files or logs that are auto-generated, except node_modules and python packages
+clean:  ## Delete any directories, files or logs that are auto-generated, except python packages
 	rm -rf results
 	rm -rf .pytest_cache
 	rm -f .coverage
