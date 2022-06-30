@@ -8,3 +8,6 @@ venv/
 # test results
 .coverage
 results/
+
+# potentially envars
+vars.yml

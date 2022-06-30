@@ -7,7 +7,7 @@ from config import Config
 APP = Flask(__name__)
 APP.config.from_object(Config())
 
-
+# flake8: noqa: C901
 @APP.route('/slack', methods=['GET', 'POST'])
 def slack():
 
@@ -30,7 +30,8 @@ def slack():
     term_dict = {}
 
     for d in data:
-
+        if len(d) != 4:
+            continue
         acroynm = d[0].lower()
         definition = d[1].strip()
         context = ''
