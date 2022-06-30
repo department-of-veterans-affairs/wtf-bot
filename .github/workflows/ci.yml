@@ -3,18 +3,14 @@ on: [push]
 
 jobs:
   build:
+    name: build and test
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - name: Get python version
-        run: |
-          python_version=$(cat .python-version)
-          echo "python_version=${python_version}" >> $GITHUB_ENV
       - name: Set up Python $
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.python_version }}
+          python-version-file: '.python-version' # Read python version from a file
       - name: Install dependencies
         run: |
           pip install --require-hashes -r requirements.txt -r dev-requirements.txt

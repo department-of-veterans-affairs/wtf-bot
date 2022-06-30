@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - main
   schedule:
     - cron: '30 9 * * 0' # Every Sunday at 9:30AM UTC (5:30AM EST)
 
@@ -14,14 +13,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Get python version
-        run: |
-          python_version=$(cat .python-version)
-          echo "python_version=${python_version}" >> $GITHUB_ENV
       - name: Set up Python $
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.python_version }}
+          python-version-file: '.python-version' # Read python version from a file
 
       - name: Deploy to cloud.gov
         uses: cloud-gov/cg-cli-tools@main
