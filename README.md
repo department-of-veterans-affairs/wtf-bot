@@ -1,6 +1,18 @@
 # wtf-bot
 
-A Flask application that powers the /wtf Slack command. Inspired by a [previous incarnation](https://github.com/paultag/wtf) of similar functionality. Configured for deployment on [Cloud.gov](https://www.cloud.gov). Relies on the VA [acronym list](https://github.com/department-of-veterans-affairs/acronyms).
+A Flask application that powers the /wtf Slack command. Inspired by a [previous incarnation](https://github.com/paultag/wtf) of similar functionality. Relies on the VA [acronym list](https://github.com/department-of-veterans-affairs/acronyms).
+
+## Install to slack
+
+If using a VA slack instance, you can configure an instance of this bot into your slack. 
+To do this, follow these steps:
+1. Create a new slack app in your workspace, using the [manifest](slack_app_config.yaml). Instructions to do this are [here](https://api.slack.com/reference/manifests#creating_apps).
+2. Get the app approved by your administrators and add it to your workspace.
+3. Submit a ticket to the [DOTS service desk](https://vajira.max.gov/servicedesk/customer/portal/1/create/17) and provide the 'Verification Token' available in the `Basic Information / App Config` section of your bot config. 
+This token is used to validate your requests to the wtf-bot.
+4. DOTS will inform you when the token has been added, and will provide you with the URL to the wtf-bot service. This
+URL should be added to your app config to replace the `http://replace.me.com/slack` link.
+5. Test out the wtf-bot in your slack with `/wtf VA` - it should work!
 
 ## Local development
 

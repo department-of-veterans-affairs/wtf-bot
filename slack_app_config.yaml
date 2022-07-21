@@ -1,0 +1,26 @@
+---
+display_information:
+  name: wtf-bot
+  description: VA acronym bot
+  background_color: "#0a43f0"
+  long_description: "Looks up acronyms - use with /wtf <acronym>\r
+
+    This pulls acronyms from the https://github.com/department-of-veterans-affairs/acronyms repository, and uses the https://github.com/department-of-veterans-affairs/wtf-bot"
+features:
+  bot_user:
+    display_name: wtf-bot
+    always_online: true
+  slash_commands:
+    - command: /wtf
+      url: http://replace.me.com/slack
+      description: VA acronym bot
+      usage_hint: "[acronym]"
+      should_escape: false
+oauth_config:
+  scopes:
+    bot:
+      - commands
+settings:
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false
