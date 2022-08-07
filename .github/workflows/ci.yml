@@ -17,3 +17,21 @@ jobs:
       - name: Test with pytest
         run: |
           make test
+  redeploy:
+    name: Redeploy
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Create PEM file from secret and set permissions
+      run: |
+        echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > key.pem
+        chmod 400 key.pem
+
+    - name: Deploy and restart flask app
+      run: |
+        ssh -o StrictHostKeyChecking=no -i "key.pem" ${{ secrets.CONNECTION_STRING }} 'bash -s' < ./redeploy.sh ${{ secrets.FLASK_APP_LOCATION }} ${{ secrets.SLACK_TOKENS }} ${{ secrets.DATA_URL }} ${{ secrets.FLASK_DEBUG_VALUE }} ${{ secrets.USER_TO_RUN }}

@@ -1,12 +1,14 @@
 cd wtf-bot
 BOT_DIR=$(pwd)
 
+#Other python processes would require this to be refactored to target the wtf-bot processes specifically 
 PROCESS_ID=$(pgrep -o python3.8)
 sudo kill -9 $PROCESS_ID
 
 CHILD_ID=$(pgrep -o python3.8)
 sudo kill -9 $CHILD_ID
 
+git checkout master
 git pull
 pip3 install -r requirements.txt dev-requirements.txt
 sudo rm log.txt
