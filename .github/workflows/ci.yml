@@ -34,4 +34,4 @@ jobs:
 
     - name: Deploy and restart flask app
       run: |
-        ssh -o StrictHostKeyChecking=no -i "key.pem" ${{ secrets.CONNECTION_STRING }} 'bash -s' < ./redeploy.sh ${{ secrets.FLASK_APP_LOCATION }} ${{ secrets.SLACK_TOKENS }} ${{ secrets.DATA_URL }} ${{ secrets.FLASK_DEBUG_VALUE }} ${{ secrets.USER_TO_RUN }}
+        ssh -o StrictHostKeyChecking=no -i "key.pem" ${{ secrets.CONNECTION_STRING }} 'bash -s' < ./redeploy.sh ${{ secrets.FLASK_APP_LOCATION }} ${{ secrets.SLACK_TOKENS }} ${{ secrets.DATA_URL }} ${{ secrets.FLASK_DEBUG_VALUE }}
