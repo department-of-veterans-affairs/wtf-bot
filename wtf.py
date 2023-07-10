@@ -65,7 +65,7 @@ def slack():
     except KeyError:
         response = """
         Entry for '{}' not found! Acronyms may be added at
-        https://github.com/department-of-veterans-affairs/acronyms
+        https://github.com/department-of-veterans-affairs/acronyms/acronyms.csv
         """.format(req['text'])
 
     return make_response(response)
