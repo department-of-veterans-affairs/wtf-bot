@@ -1,0 +1,37 @@
+name: CI/CD
+on: [push]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python $
+        uses: actions/setup-python@v4
+        with:
+          python-version-file: '.python-version' # Read python version from a file
+      - name: Install dependencies
+        run: |
+          pip install --require-hashes -r requirements.txt -r dev-requirements.txt
+      - name: Test with pytest
+        run: |
+          make test
+  redeploy:
+    name: Redeploy
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Create PEM file from secret and set permissions
+      run: |
+        echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > key.pem
+        chmod 400 key.pem
+
+    - name: Deploy and restart flask app
+      run: |
+        ssh -o StrictHostKeyChecking=no -i "key.pem" ${{ secrets.CONNECTION_STRING }} 'bash -s' < ./redeploy.sh ${{ secrets.FLASK_APP_LOCATION }} ${{ secrets.SLACK_TOKENS }} ${{ secrets.DATA_URL }} ${{ secrets.FLASK_DEBUG_VALUE }}
