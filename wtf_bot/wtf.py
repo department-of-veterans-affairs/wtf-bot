@@ -1,4 +1,5 @@
 import csv
+import html
 import http
 
 import requests
@@ -61,12 +62,12 @@ def slack():
         else:
             response = " - " + acronym_defined[0]
 
-        response = req["text"] + "\n" + response
+        response = html.escape(req["text"]) + "\n" + response
 
     except KeyError:
-        response = """
-        Entry for '{}' not found! Acronyms may be added at
+        response = f"""
+        Entry for '{html.escape(req["text"])}' not found! Acronyms may be added at
         https://github.com/department-of-veterans-affairs/acronyms/blob/master/acronyms.csv
-        """.format(req["text"])
+        """
 
     return make_response(response)

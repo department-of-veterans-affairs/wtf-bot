@@ -99,3 +99,12 @@ def test_not_found(client):
     assert b"not found!" in r.data
     assert b"13231312334" in r.data
     assert r.status_code == http.HTTPStatus.OK
+
+
+def test_xss_vule(client):
+    """Ensures that HTMl elements are properly escaped in the returned result"""
+    data = {"text": "<<SCRIPT>alert('XSS');//\<</SCRIPT>", "token": TEST_TOKENS[0]}
+    r = client.post(ROUTE, data=data)
+    assert b"not found!" in r.data
+    assert b"&lt;&lt;SCRIPT&gt;alert(&#x27;XSS&#x27;);//\\&lt;&lt;/SCRIPT&gt;" in r.data
+    assert r.status_code == http.HTTPStatus.OK
