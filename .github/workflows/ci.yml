@@ -6,14 +6,16 @@ jobs:
     name: build and test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python $
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version-file: '.python-version' # Read python version from a file
-      - name: Install dependencies
-        run: |
-          pip install --require-hashes -r requirements.txt -r dev-requirements.txt
-      - name: Test with pytest
-        run: |
-          make test
+
+      - name: Set up poetry
+        uses: Gr1N/setup-poetry@v9
+
+      - name: Runs tests and static analysis
+        shell: bash
+        run: make test

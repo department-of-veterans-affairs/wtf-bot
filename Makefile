@@ -1,92 +1,57 @@
-# Makefile for wtf-bot
 # Tested with GNU Make 3.8.1
 MAKEFLAGS += --warn-undefined-variables
-SHELL        	:= /usr/bin/env bash -e
-CI_ARG      	:= $(CI)
-
+SHELL        	:= /usr/bin/env bash -e -u -o pipefail
 .DEFAULT_GOAL := help
+INSTALL_STAMP := .install.stamp
+POETRY := $(shell command -v poetry 2> /dev/null)
 
-# cribbed from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html and https://news.ycombinator.com/item?id=11195539
+# cribbed from https://github.com/mozilla-services/telescope/blob/main/Makefile
+.PHONY: help
 help:  ## Prints out documentation for available commands
-	@awk -F ':|##' \
-		'/^[^\t].+?:.*?##/ {\
-			printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF \
-		}' $(MAKEFILE_LIST)
+	@echo "Please use 'make <target>' where <target> is one of the following commands."
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@echo "Check the Makefile to know exactly what each target is doing."
 
-## Pip / Python
+install: $(INSTALL_STAMP)  ## Install dependencies
+$(INSTALL_STAMP): pyproject.toml poetry.lock
+	@if [[ -z "$(POETRY)" ]]; then echo "Poetry could not be found. See https://python-poetry.org/docs/"; exit 2; fi
+	@echo "=> Installing python dependencies"
+	"$(POETRY)" --version
+	"$(POETRY)" install
+	touch $(INSTALL_STAMP)
 
-.PHONY: python-install
-# python-install recipe all has to run in a single shell because it's running inside a virtualenv
-python-install:  requirements.txt dev-requirements.txt ## Sets up your python environment for the first time (only need to run once)
-	pip install virtualenv ;\
-	virtualenv ENV ;\
-	source ENV/bin/activate ;\
-	echo shell ENV activated ;\
-	pip install --require-hashes -r requirements.txt -r dev-requirements.txt ;\
-	echo Finished install ;\
-	echo Please activate the virtualenvironment with: ;\
-	echo source ENV/bin/activate
+.PHONY: format-check
+format-check: $(INSTALL_STAMP)  ## runs code formatting
+	"$(POETRY)" run ruff format --check
 
-# Errors out if VIRTUAL_ENV is not defined and we aren't in a CI environment.
-.PHONY: check-env
-check-env:
-ifndef VIRTUAL_ENV
-ifneq ($(CI_ARG), true)
-	$(error VIRTUAL_ENV is undefined, meaning you aren't running in a virtual environment. Fix by running: 'source ENV/bin/activate')
-endif
-endif
+.PHONY: format-fix
+format-fix: $(INSTALL_STAMP)  ## runs code formatting
+	"$(POETRY)" run ruff format
 
-requirements.txt: requirements.in
-	pip-compile --allow-unsafe --generate-hashes requirements.in --output-file $@
+.PHONY: lint
+lint: $(INSTALL_STAMP)  ## runs code formatting checks
+	"$(POETRY)" run ruff check
 
-dev-requirements.txt: dev-requirements.in
-	pip-compile --allow-unsafe --generate-hashes dev-requirements.in --output-file $@
+.PHONY: lint-fix
+lint-fix: $(INSTALL_STAMP)  ## runs code formatting checks
+	"$(POETRY)" run ruff check --fix --exit-non-zero-on-fix
 
-.PHONY: pip-upgrade
-pip-upgrade:  ## Upgrade all python dependencies
-	pip-compile --upgrade --allow-unsafe --generate-hashes requirements.in --output-file requirements.txt
-	pip-compile --upgrade --allow-unsafe --generate-hashes dev-requirements.in --output-file dev-requirements.txt
-
-SITE_PACKAGES := $(shell pip show pip | grep '^Location' | cut -f2 -d ':')
-$(SITE_PACKAGES): requirements.txt dev-requirements.txt check-env
-ifeq ($(CI_ARG), true)
-	@echo "Do nothing; assume python dependencies were installed already"
-else
-	pip-sync requirements.txt dev-requirements.txt
-endif
-
-.PHONY: pip-install
-pip-install: $(SITE_PACKAGES)
-
-## Test targets
+## Test
 .PHONY: unit-test
-unit-test: pip-install  ## Run python unit tests
-	python -m pytest -v --cov --cov-report term --cov-report xml --cov-report html
-
-.PHONY: flake8
-flake8: pip-install 	## Run Flake8 python static style checking and linting
-	@echo "flake8 comments:"
-	flake8 --statistics .
+unit-test: $(INSTALL_STAMP)  ## Run python unit tests
+	"$(POETRY)" run pytest -v --cov --cov-report term --cov-report xml --cov-report html
 
 .PHONY: test
-test: unit-test flake8 ## Run unit tests, static analysis
+test: unit-test format-check lint  ## Run unit tests, static analysis
 	@echo "All tests passed."  # This should only be printed if all of the other targets succeed
 
-.PHONY: install-action-lint
-install-action-lint:  ## Install actionlint
-	brew install actionlint
-
-.PHONY: actionlint
-actionlint:  ## Run actionlint
-	actionlint
-
 .PHONY: clean
-clean:  ## Delete any directories, files or logs that are auto-generated, except python packages
+clean:  ## Delete any directories, files or logs that are auto-generated
 	rm -rf results
-	rm -rf .pytest_cache
-	rm -f .coverage
+	find . -type d -name "__pycache__" | xargs rm -rf {};
+	rm -f .install.stamp .coverage .coverage.*
 
 .PHONY: deepclean
-deepclean: clean  ## Delete python packages and virtualenv. You must run 'make python-install' after running this.
-	rm -rf ENV
-	@echo virtualenvironment was deleted. Type 'deactivate' to deactivate the shims.
+deepclean: clean  ## Runs cleans and deletes all poetry environments
+	"$(POETRY)" env remove --all -n
+	@echo Poetry environments deleted. Type 'exit' to exit the shell.
