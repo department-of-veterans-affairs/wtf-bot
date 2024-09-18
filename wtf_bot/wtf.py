@@ -34,7 +34,7 @@ def slack():
     for d in data:
         if len(d) != 4:
             continue
-        acroynm = d[0].lower()
+        acronym = d[0].lower()
         definition = d[1].strip()
         context = ""
         notes = ""
@@ -44,22 +44,22 @@ def slack():
             notes = "\n\t- " + d[3].strip()
         full_data = f"{definition}{context}{notes}"
 
-        existing = term_dict.get(acroynm, None)
+        existing = term_dict.get(acronym, None)
 
         if not existing:
-            term_dict[acroynm] = [full_data]
+            term_dict[acronym] = [full_data]
 
         else:
-            term_dict[acroynm] = existing + [full_data]
+            term_dict[acronym] = existing + [full_data]
 
     try:
-        acroynm_defined = term_dict[req["text"].lower()]
+        acronym_defined = term_dict[req["text"].lower()]
 
-        if len(acroynm_defined) > 1:
-            response = " - " + "; \n - ".join(acroynm_defined)
+        if len(acronym_defined) > 1:
+            response = " - " + "; \n - ".join(acronym_defined)
 
         else:
-            response = " - " + acroynm_defined[0]
+            response = " - " + acronym_defined[0]
 
         response = req["text"] + "\n" + response
 
