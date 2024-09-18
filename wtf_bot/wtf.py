@@ -50,7 +50,7 @@ def slack():
             term_dict[acronym] = [full_data]
 
         else:
-            term_dict[acronym] = existing + [full_data]
+            term_dict[acronym] = [*existing, full_data]
 
     try:
         acronym_defined = term_dict[req["text"].lower()]
