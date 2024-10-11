@@ -45,6 +45,11 @@ unit-test: $(INSTALL_STAMP)  ## Run python unit tests
 test: unit-test format-check lint  ## Run unit tests, static analysis
 	@echo "All tests passed."  # This should only be printed if all of the other targets succeed
 
+.PHONY: check-dependencies
+check-dependencies: $(INSTALL_STAMP)  ## check dependencies for vulnerabilities
+	# 22 Aug 2024: 70612 vulnerability found with jinja2 version 3.1.4. At this time, all versions of jinja2 are affected, but vulnerability is being disputed. https://nvd.nist.gov/vuln/detail/CVE-2019-8341
+	"$(POETRY)" run safety check -r poetry.lock --full-report -i 70612
+
 .PHONY: clean
 clean:  ## Delete any directories, files or logs that are auto-generated
 	rm -rf results
