@@ -1,6 +1,6 @@
 # wtf-bot
 
-A Flask application that powers the /wtf Slack command. Inspired by a [previous incarnation](https://github.com/paultag/wtf) of similar functionality. Relies on the VA [acronym list](https://github.com/department-of-veterans-affairs/acronyms).
+A Flask application that powers the `/wtf` Slack command. Inspired by a [previous incarnation](https://github.com/paultag/wtf) of similar functionality. Relies on the VA [acronym list](https://github.com/department-of-veterans-affairs/acronyms).
 
 ## Install to slack
 
@@ -23,33 +23,18 @@ $ git clone https://github.com/department-of-veterans-affairs/wtf-bot.git
 $ cd /path/to/wtf-bot/
 ```
 
-### Create and configure virtual environment.
-
-Make sure you have the correct version of python. [Pyenv](https://github.com/pyenv/pyenv) manages python versions.
-  1. `pyenv install 3.8.12` (use version in `.python-version`)
-  2. Make sure to configure your shell's environment for pyenv following instructions in step 2
-    [here](https://github.com/pyenv/pyenv#basic-github-checkout).
-  3. Once this is done, start a new shell and run `pyenv version` and `python --version` in the terminal from the root directory of the project, both should read `3.8.12`
-
-#### *nix
-
- ```
-  $ make python-install
-  $ source ENV/bin/activate
- ```
-
-#### Windows
-
- ```
-> python3 -m venv ENV
-> ENV\Scripts\activate
-> pip3 install -r requirements.txt dev-requirements.txt
- ```
+### Set up python and poetry
+1. Install python as defined in `.python-version`. You can use [Pyenv](https://github.com/pyenv/pyenv) or [asdf](https://asdf-vm.com/) to manage python versions. Verify with `python --version`
+1. [Install poetry](https://python-poetry.org/docs/#installation)
+1. Install the python dependencies:
+```
+make install
+```
 
 ### Run tests
 
 ```
-$ make test
+make test
 ```
 
 ## Run the server locally
@@ -58,32 +43,30 @@ $ make test
 
 #### *nix
 
-```
-$ export FLASK_APP=/path/to/wtf-bot/wtf.py
-$ export FLASK_DEBUG=1
-$ export SLACK_TOKENS={comma separated tokens to be defined by you}
-$ export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv
+```bash
+export FLASK_APP=/path/to/wtf-bot/wtf_bot/wtf.py
+export FLASK_DEBUG=1
+export SLACK_TOKENS={comma separated tokens to be defined by you}
+export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv
 ```
 
 #### Windows
 
-```
-> set FLASK_APP=/path/to/wtf-bot/wtf.py
-> set FLASK_DEBUG=1
-> set SLACK_TOKENS={comma separated tokens to be defined by you}
-> set DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv
+```PowerShell
+set FLASK_APP=/path/to/wtf-bot/wtf_bot/wtf.py
+set FLASK_DEBUG=1
+set SLACK_TOKENS={comma separated tokens to be defined by you}
+set DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv
 ```
 
 ### Start the local server
-
 ```
-$ flask run
+poetry run flask run
 ```
 
 ## Query the `/slack` endpoint
-
 ```
-$ curl -X POST http://127.0.0.1:5000/slack -d "text=aaa&token={to be defined by you}"
+curl -X POST http://127.0.0.1:5000/slack -d "text=aaa&token={to be defined by you}"
 ```
 
 ## Bugs, feature requests, or contributions
