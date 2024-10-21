@@ -12,7 +12,7 @@ gunicorn = "^23.0.0"
 requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.6.5"
+ruff = "^0.7.0"
 pytest-cov = "^5.0.0"
 safety = "^3.2.8"
 
