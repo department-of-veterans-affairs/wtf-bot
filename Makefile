@@ -47,8 +47,15 @@ test: unit-test format-check lint  ## Run unit tests, static analysis
 
 .PHONY: check-dependencies
 check-dependencies: $(INSTALL_STAMP)  ## check dependencies for vulnerabilities
-	# 22 Aug 2024: 70612 vulnerability found with jinja2 version 3.1.4. At this time, all versions of jinja2 are affected, but vulnerability is being disputed. https://nvd.nist.gov/vuln/detail/CVE-2019-8341
-	"$(POETRY)" run safety check -r poetry.lock --full-report -i 70612
+	"$(POETRY)" run safety check -r poetry.lock --full-report
+
+.PHONY: run-dev
+run-dev:  $(INSTALL_STAMP)  ## runs flask in dev mode
+	export FLASK_APP=wtf_bot/wtf.py && \
+	export FLASK_DEBUG=1 && \
+	export SLACK_TOKENS=abc && \
+	export DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/acronyms/master/acronyms.csv && \
+	poetry run flask run
 
 .PHONY: clean
 clean:  ## Delete any directories, files or logs that are auto-generated
