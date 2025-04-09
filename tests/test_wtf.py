@@ -102,7 +102,7 @@ def test_not_found(client):
 
 
 def test_xss_vuln(client):
-    """Ensures that HTMl elements are properly escaped in the returned result"""
+    """Ensures that HTML elements are properly escaped in the returned result"""
     data = {"text": r"<<SCRIPT>alert('XSS');//\<</SCRIPT>", "token": TEST_TOKENS[0]}
     r = client.post(ROUTE, data=data)
     assert b"not found!" in r.data
