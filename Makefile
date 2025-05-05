@@ -21,19 +21,19 @@ $(INSTALL_STAMP): pyproject.toml poetry.lock
 	touch $(INSTALL_STAMP)
 
 .PHONY: format-check
-format-check: $(INSTALL_STAMP)  ## runs code formatting
+format-check: $(INSTALL_STAMP)  ## checks code formatting
 	"$(POETRY)" run ruff format --check
 
 .PHONY: format-fix
-format-fix: $(INSTALL_STAMP)  ## runs code formatting
+format-fix: $(INSTALL_STAMP)  ## formats code
 	"$(POETRY)" run ruff format
 
 .PHONY: lint
-lint: $(INSTALL_STAMP)  ## runs code formatting checks
+lint: $(INSTALL_STAMP)  ## runs lint checks
 	"$(POETRY)" run ruff check
 
 .PHONY: lint-fix
-lint-fix: $(INSTALL_STAMP)  ## runs code formatting checks
+lint-fix: $(INSTALL_STAMP)  ## fixes linting issues
 	"$(POETRY)" run ruff check --fix --exit-non-zero-on-fix
 
 ## Test
