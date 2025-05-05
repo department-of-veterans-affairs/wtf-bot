@@ -14,7 +14,7 @@ jobs:
           python-version-file: '.python-version' # Read python version from a file
 
       - name: Set up poetry
-        uses: Gr1N/setup-poetry@v9
+        uses: snok/install-poetry@v1
 
       - name: Runs tests and static analysis
         shell: bash
