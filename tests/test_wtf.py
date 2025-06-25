@@ -7,9 +7,8 @@ ROUTE = "/slack"
 TEST_TOKENS = ["token1", "token2"]
 
 os.environ["SLACK_TOKENS"] = "test"
-# Fixme - change path once merged back to master
 os.environ["DATA_URL"] = (
-    "https://raw.githubusercontent.com/department-of-veterans-affairs/wtf-bot/poetry-upgrade/tests/test_acronyms.csv"
+    "https://raw.githubusercontent.com/department-of-veterans-affairs/wtf-bot/master/tests/test_acronyms.csv"
 )
 
 # Import after setting environment variables
