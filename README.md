@@ -9,7 +9,7 @@ To do this, follow these steps:
 
 1. Create a new slack app in your workspace, using the [manifest](slack_app_config.yaml). Instructions to do this are [here](https://api.slack.com/reference/manifests#creating_apps).
 1. Get the app approved by your administrators and add it to your workspace.
-1. Submit a ticket to the [DOTS service desk](https://vajira.max.gov/servicedesk/customer/portal/1/create/17) and provide the 'Verification Token' available in the `Basic Information / App Config` section of your bot config.
+1. Submit a ticket to the [DOTS service desk](https://jira.devops.va.gov/servicedesk/customer/portal/1/create/1187) to request that a new token be added to the deployed wtf-bot. Provide the 'Verification Token' available in the `Basic Information / App Config` section of your bot config.
    This token is used to validate your requests to the wtf-bot.
 1. DOTS will inform you when the token has been added, and will provide you with the URL to the wtf-bot service. This
    URL should be added to your app config to replace the `http://replace.me.com/slack` link.
