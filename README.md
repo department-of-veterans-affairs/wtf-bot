@@ -4,15 +4,16 @@ A Flask application that powers the `/wtf` Slack command. Inspired by a [previou
 
 ## Install to slack
 
-If using a VA slack instance, you can configure an instance of this bot into your slack. 
+If using a VA slack instance, you can configure an instance of this bot into your slack.
 To do this, follow these steps:
+
 1. Create a new slack app in your workspace, using the [manifest](slack_app_config.yaml). Instructions to do this are [here](https://api.slack.com/reference/manifests#creating_apps).
-2. Get the app approved by your administrators and add it to your workspace.
-3. Submit a ticket to the [DOTS service desk](https://vajira.max.gov/servicedesk/customer/portal/1/create/17) and provide the 'Verification Token' available in the `Basic Information / App Config` section of your bot config. 
-This token is used to validate your requests to the wtf-bot.
-4. DOTS will inform you when the token has been added, and will provide you with the URL to the wtf-bot service. This
-URL should be added to your app config to replace the `http://replace.me.com/slack` link.
-5. Test out the wtf-bot in your slack with `/wtf VA` - it should work!
+1. Get the app approved by your administrators and add it to your workspace.
+1. Submit a ticket to the [DOTS service desk](https://vajira.max.gov/servicedesk/customer/portal/1/create/17) and provide the 'Verification Token' available in the `Basic Information / App Config` section of your bot config.
+   This token is used to validate your requests to the wtf-bot.
+1. DOTS will inform you when the token has been added, and will provide you with the URL to the wtf-bot service. This
+   URL should be added to your app config to replace the `http://replace.me.com/slack` link.
+1. Test out the wtf-bot in your slack with `/wtf VA` - it should work!
 
 ## Local development
 
@@ -24,9 +25,11 @@ $ cd /path/to/wtf-bot/
 ```
 
 ### Set up python and poetry
+
 1. Install python as defined in `.python-version`. You can use [Pyenv](https://github.com/pyenv/pyenv) or [asdf](https://asdf-vm.com/) to manage python versions. Verify with `python --version`
 1. [Install poetry](https://python-poetry.org/docs/#installation)
 1. Install the python dependencies:
+
 ```
 make install
 ```
@@ -41,7 +44,7 @@ make test
 
 ### Set up environment variables
 
-#### *nix
+#### \*nix
 
 ```bash
 export FLASK_APP=/path/to/wtf-bot/wtf_bot/wtf.py
@@ -60,11 +63,13 @@ set DATA_URL=https://raw.githubusercontent.com/department-of-veterans-affairs/ac
 ```
 
 ### Start the local server
+
 ```
 poetry run flask run
 ```
 
 ## Query the `/slack` endpoint
+
 ```
 curl -X POST http://127.0.0.1:5000/slack -d "text=aaa&token={to be defined by you}"
 ```
