@@ -1,9 +1,8 @@
 [run]
 branch = True
-source = .
+source = wtf_bot
 omit =
   **/test_*
-  **/ENV/*
 
 [html]
 directory = results/coverage

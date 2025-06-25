@@ -1,1 +1,1 @@
-web: gunicorn -w 4 --preload --log-level debug --capture-output --error-logfile /home/vcap/logs/errors.log wtf:APP
+web: gunicorn -w 4 --preload --log-level debug --capture-output --error-logfile /home/vcap/logs/errors.log wtf_bot.wtf:APP
